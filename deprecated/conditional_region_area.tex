@@ -1,0 +1,136 @@
+\documentclass[10pt,letterpaper]{article}
+\usepackage[T1]{fontenc}
+\usepackage{courier}
+\renewcommand{\familydefault}{\ttdefault}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage[margin=0.78in]{geometry}
+\usepackage{microtype}
+\usepackage{fancyhdr}
+\usepackage{titlesec}
+\usepackage{xcolor}
+\usepackage{hyperref}
+
+\definecolor{ink}{HTML}{232323}
+\definecolor{rulegray}{HTML}{888888}
+\hypersetup{colorlinks=true,linkcolor=ink,urlcolor=ink}
+\color{ink}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0.50em}
+\setlength{\headheight}{14pt}
+\linespread{1.03}
+\emergencystretch=3em
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small Distribution Sampling Neighborhoods}
+\fancyhead[R]{\small 11 OCT 2026}
+\fancyfoot[R]{\small \thepage}
+\renewcommand{\headrulewidth}{0.35pt}
+\renewcommand{\footrulewidth}{0pt}
+\titleformat{\section}{\normalfont\bfseries\large}{\thesection.}{0.6em}{}
+\titlespacing*{\section}{0pt}{0.85em}{0.20em}
+\newtheoremstyle{typed}{0.6em}{0.6em}{\normalfont}{}{}{.}{0.5em}{}
+\theoremstyle{typed}
+\newtheorem{theorem}{Theorem}
+
+\begin{document}
+\pagestyle{fancy}
+\thispagestyle{fancy}
+
+{\Large\bfseries How much original mass lies near sampled vectors?}\par
+{\small A distance-based measure of original probability mass}\par
+{\small Jonathan R. Landers}\par
+\vspace{0.25em}\noindent\rule{\textwidth}{0.5pt}
+
+\section{Question and distributions}
+
+At fixed input $x$, let $d$ be a positive integer giving the vector dimension and $Q_x$ the sampler's final distribution on $\mathbb{R}^d$. Let $P_0$ be the original vector distribution on the same space. Independent sampler draws are $Y_i\sim Q_x$; an original-distribution vector is $X\sim P_0$. We ask: what fraction of $P_0$ lies near the vectors the sampler produces?
+
+That fraction is \emph{original probability mass}, a number between zero and one. It is different from the geometric volume of a region in $\mathbb{R}^d$. A histogram with one horizontal axis becomes meaningful for this question after we turn each vector into a scalar distance score.
+
+\section{From vectors to a distance score}
+
+Choose a measurable distance $\rho$ on the vector representation. Its feature scaling is part of the definition; Euclidean distance is one choice. Hold out some sampler draws and use $s\geq1$ others as a reference set $C=\{Y_1,\ldots,Y_s\}$. For a vector $z$ and radius $r\in[0,\infty]$, define
+\begin{equation}
+  D_C(z)=\min_{y\in C}\rho(z,y),\qquad
+  R_r=\{z:D_C(z)\leq r\}.
+  \label{eq:region}
+\end{equation}
+Thus $D_C(z)$ is the distance from $z$ to its closest sampled vector, and $R_r$ is the union of distance-$r$ neighborhoods around the reference vectors.
+
+A similarity measure gives the same construction. For example, with similarity scale $h>0$, define
+\begin{equation}
+  M(z,y)=\exp\!\left(-\frac{\rho(z,y)^2}{2h^2}\right),\qquad
+  \max_{y\in C}M(z,y)=\exp\!\left(-\frac{D_C(z)^2}{2h^2}\right).
+  \label{eq:similarity}
+\end{equation}
+High similarity and small distance therefore select exactly the same vectors.
+
+\section{Choose the radius from fresh sampler draws}
+
+Let $V_1,\ldots,V_m\overset{\mathrm{iid}}{\sim}Q_x$, with $m\geq1$, be check draws independent of $C$. For a desired sampler coverage $0<\alpha<1$, sort their scores $t_j=D_C(V_j)$ as $t_{(1)}\leq\cdots\leq t_{(m)}$, where $t_{(j)}$ is the $j$th smallest score, and set
+\begin{equation}
+  k=\left\lceil(m+1)\alpha\right\rceil,\qquad
+  r_\alpha=\begin{cases}t_{(k)},&k\leq m,\\ \infty,&k=m+1.\end{cases}
+  \label{eq:radius}
+\end{equation}
+
+\begin{theorem}
+For a fresh, independent $Y_{\rm new}\sim Q_x$,
+\begin{equation}
+  \Pr\{Y_{\rm new}\in R_{r_\alpha}\mid C\}\geq\alpha,
+  \label{eq:coverage}
+\end{equation}
+where the probability includes the random check draws used to choose $r_\alpha$.
+\end{theorem}
+
+\emph{Reason.} Conditional on $C$, the $m$ check scores and the fresh score are exchangeable. If $k\leq m$, the fresh score falls at or below the $k$th check score with probability at least $k/(m+1)\geq\alpha$; ties can only increase coverage. If $k=m+1$, the radius is infinite and coverage is one.
+
+\newpage
+\thispagestyle{fancy}
+\section{Area under the original distance histogram}
+
+For the region selected by \eqref{eq:radius}, define its mass under the original distribution, conditional on the realized reference and check draws:
+\begin{equation}
+  \boxed{\quad A_\alpha=P_0(R_{r_\alpha})
+  =\mathbb{E}_{X\sim P_0}\!\left[\mathbf{1}\{D_C(X)\leq r_\alpha\}\right].\quad}
+  \label{eq:mass}
+\end{equation}
+Here $\mathbf{1}\{\cdot\}$ is one when its condition holds and zero otherwise.
+If $P_0$ has vector density $p_0$, this is
+\begin{equation}
+  A_\alpha=\int_{\mathbb{R}^d}\mathbf{1}\{D_C(z)\leq r_\alpha\}p_0(z)\,dz
+  =\int_{R_{r_\alpha}}p_0(z)\,dz.
+  \label{eq:integral}
+\end{equation}
+
+Now transform an original vector into the scalar $T_C=D_C(X)$, and let $H_C(t)=P_0(T_C\leq t)$ be its cumulative distribution function for fixed $C$. If $T_C$ has a density, denote it by $h_C(t)$. Then the key histogram identity is
+\begin{equation}
+  \boxed{\quad A_\alpha=H_C(r_\alpha)
+  =\int_0^{r_\alpha}h_C(t)\,dt\quad}
+  \label{eq:histogram}
+\end{equation}
+when the density exists. In plain terms: build a histogram of \emph{distance to the closest sampled vector} for vectors from the original distribution. The area to the left of $r_\alpha$ is the requested original probability mass. If the score has atoms, use the cumulative distribution $H_C$ rather than the density integral.
+
+\section{Calculation from original vectors}
+
+If $X_1,\ldots,X_N\overset{\mathrm{iid}}{\sim}P_0$, with $N\geq1$, are original-distribution vectors independent of $C$ and the check draws, compute their distances to $C$ and count those within the radius:
+\begin{equation}
+  \widehat A_\alpha=\frac{1}{N}\sum_{\ell=1}^{N}
+  \mathbf{1}\{D_C(X_\ell)\leq r_\alpha\}.
+  \label{eq:estimate}
+\end{equation}
+Conditional on $C$ and the check draws, this estimate has mean $A_\alpha$ and variance $A_\alpha(1-A_\alpha)/N$. A histogram is a display of the same calculation; counting before binning avoids a partial-bin approximation.
+
+\section{Reading and limits}
+
+For example, $\alpha=0.90$ and $A_\alpha=0.35$ means a distance-defined region calibrated to cover at least $90\%$ of future sampler draws, in the sense of \eqref{eq:coverage}, contains $35\%$ of the original distribution. The guarantee in \eqref{eq:coverage} averages over the random check set; a particular realized region may have different coverage.
+
+For scalar outputs, let $F_0$ be the cumulative distribution function of $P_0$. Choosing the interval from the smallest to largest of the $s$ reference draws gives original mass $F_0(\max_{1\leq i\leq s}Y_i)-F_0(\min_{1\leq i\leq s}Y_i)$ when $P_0$ is continuous. With vectors, if $p_0$ exists, taking minimum and maximum \emph{density heights} $p_0(Y_i)$ instead selects a band of density values; it need not select vectors close to any sample. Likewise, a histogram of one raw feature cannot determine \eqref{eq:mass}. One needs the original full vectors or their joint distribution.
+
+The answer depends on the representation, distance, and coverage level. Finite sampler draws define an operational neighborhood; they do not identify the full support of $Q_x$.
+
+\vfill
+\noindent\rule{\textwidth}{0.35pt}\par
+{\small\bfseries READING OF THE RESULT.} Calibrate a distance cutoff on sampler draws, then measure how much of the original vector distribution falls within it.
+
+\end{document}

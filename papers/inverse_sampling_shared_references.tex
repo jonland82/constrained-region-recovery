@@ -1,0 +1,229 @@
+\documentclass[10pt,letterpaper]{article}
+\usepackage[T1]{fontenc}
+\usepackage{courier}
+\renewcommand{\familydefault}{\ttdefault}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage[margin=0.78in]{geometry}
+\usepackage{microtype}
+\usepackage{fancyhdr}
+\usepackage{titlesec}
+\usepackage{xcolor}
+\usepackage{hyperref}
+
+\definecolor{ink}{HTML}{232323}
+\hypersetup{colorlinks=true,linkcolor=ink,urlcolor=ink,
+  pdftitle={Can shared references sharpen region recovery?},
+  pdfauthor={Jonathan R. Landers}}
+\color{ink}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0.50em}
+\setlength{\headheight}{14pt}
+\linespread{1.03}
+\emergencystretch=5em
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small Distribution Sampling Neighborhoods}
+\fancyhead[R]{\small 18 OCT 2026}
+\fancyfoot[R]{\small \thepage}
+\renewcommand{\headrulewidth}{0.35pt}
+\renewcommand{\footrulewidth}{0pt}
+\newcommand{\sectionrule}{%
+  \par\nobreak\vspace{0.12em}\noindent
+  \makebox[\textwidth][c]{\textcolor{black}{\rule{0.75\textwidth}{0.35pt}}}}
+\titleformat{\section}{\normalfont\bfseries\large}{\thesection.}{0.6em}{}[\sectionrule]
+\titlespacing*{\section}{0pt}{0.85em}{0.30em}
+\newtheoremstyle{typed}{0.5em}{0.5em}{\normalfont}{}{\bfseries}{.}{0.5em}{}
+\theoremstyle{typed}
+\newtheorem{lemma}{Lemma}
+\newtheorem{proposition}[lemma]{Proposition}
+\renewcommand{\proofname}{\textbf{\upshape Proof}}
+
+\begin{document}
+\thispagestyle{fancy}
+
+{\Large\bfseries Can shared references sharpen region recovery?}\par
+{\small A finite-sample extension of the inverse sampling model}\par
+{\small Jonathan R. Landers}\par
+\vspace{0.25em}\noindent\rule{\textwidth}{0.5pt}
+
+\section{From relative shape to a shared space}
+
+The inverse sampling note~\cite{inverse} shows that pairwise distances
+within a constrained sample can leave its location and original mass
+ambiguous. This note adds shared reference points and a restricted family
+of possible regions, then bounds the mass recovered incorrectly.
+
+At a fixed input, let $P_0$ be the original law on $\mathbb R^d$ and let
+$B$ be a measurable region with $\beta=P_0(B)>0$. As before, assume hard
+conditioning and $n\geq1$ independent constrained outputs:
+\begin{equation}
+  Q(A)=\frac{P_0(A\cap B)}{\beta},\qquad Y_1,\ldots,Y_n\sim Q.
+  \label{eq:model}
+\end{equation}
+Original samples can serve as anchors $a_0,\ldots,a_d$. Measure the
+distance from every output to the \emph{same} anchors, retaining their
+identities. This requires distances between the two datasets. The
+shared representation is
+\begin{equation}
+  \phi(y)=\bigl(\|y-a_0\|,\ldots,\|y-a_d\|\bigr).
+  \label{eq:anchors}
+\end{equation}
+
+\begin{lemma}[Exact location from anchors]
+If the anchors are affinely independent, $\phi$ is one-to-one.
+Known anchor coordinates and exact distances recover $y$ by a linear solve.
+\end{lemma}
+\begin{proof}
+Write $r_j=\|y-a_j\|$. Subtracting squared distances gives, for $j=1,\ldots,d$,
+\[
+  2(a_j-a_0)^\top y
+  =\|a_j\|^2-\|a_0\|^2+r_0^2-r_j^2.
+\]
+The $d$ row vectors $(a_j-a_0)^\top$ are linearly independent.
+The system therefore has a unique solution. Identical distance vectors
+must correspond to the same point.
+\end{proof}
+
+Thus three noncollinear anchors suffice in the plane. The construction
+is a distance-reconstruction method~\cite{edm}; an arbitrary metric or
+degenerate anchor set need not have this property. It locates observed
+points exactly, while unsampled parts of $B$ still require inference.
+
+\section{A small family of possible regions}
+
+Fix a finite family $\mathcal H=\{C_1,\ldots,C_M\}$ of measurable regions,
+with $B\in\mathcal H$. Candidates may be defined in the shared space and
+pulled back through $\phi$. Fix the anchors and family before collecting
+the samples used below; an independent pilot sample is allowed.
+
+\newpage
+\section{Minimum mass gives an error bound}
+
+When candidate masses are known, retain candidates containing all
+constrained outputs and choose the one with least original mass:
+\begin{equation}
+  \widehat B\in\operatorname*{arg\,min}_{C\in\mathcal H:\,Y_i\in C\ \forall i}
+  P_0(C).
+  \label{eq:estimator}
+\end{equation}
+A fixed ordering resolves ties. The true $B$ is feasible almost surely,
+so the search is nonempty. Under~\eqref{eq:model}, the likelihood relative
+to $P_0^{\otimes n}$ is
+\[
+  L(C)=P_0(C)^{-n}\prod_{i=1}^n\mathbf1\{Y_i\in C\}.
+\]
+Equation~\eqref{eq:estimator} maximizes this likelihood. Zero-mass
+candidates are infeasible almost surely and can be discarded. This
+extends the original note's two-interval rule and is related to
+minimum-volume set estimation~\cite{scott}.
+
+\begin{proposition}[Known original masses]
+For $0<\delta<1$, with probability at least $1-\delta$,
+\begin{equation}
+  \boxed{\quad P_0(B\triangle\widehat B)
+    \leq \frac{2\beta}{n}\log\frac{M}{\delta}.\quad}
+  \label{eq:exactbound}
+\end{equation}
+Here $B\triangle C=(B\setminus C)\cup(C\setminus B)$ counts both missed
+and incorrectly included original mass; $\log$ is the natural logarithm.
+\end{proposition}
+\begin{proof}
+For a fixed candidate $C$, put
+$q_C=Q(B\setminus C)=P_0(B\setminus C)/\beta$. Independence gives
+\[
+  \Pr\{Y_i\in C\ \forall i\}=(1-q_C)^n\leq e^{-nq_C}.
+\]
+Taking a union bound over the $M$ candidates, for every $t>0$,
+\[
+ \Pr\{\text{some feasible }C\text{ has }q_C>t\}\leq M e^{-nt}.
+\]
+Set $t=\log(M/\delta)/n$. Except on an event of probability at most
+$\delta$, every feasible candidate, including $\widehat B$, misses
+at most $\beta t$ original mass.
+
+Write $a=P_0(B\setminus\widehat B)$ and
+$b=P_0(\widehat B\setminus B)$. Minimality and feasibility of $B$ give
+\[
+ P_0(\widehat B)=\beta-a+b\leq\beta,
+ \qquad\text{hence }b\leq a.
+\]
+Therefore $P_0(B\triangle\widehat B)=a+b\leq2a\leq2\beta t$,
+which proves~\eqref{eq:exactbound}.
+\end{proof}
+
+The two steps have distinct roles: observing every constrained output
+limits missed mass; minimizing original mass also limits extra mass.
+For a desired error $\varepsilon>0$, it suffices that
+$n\geq(2\beta/\varepsilon)\log(M/\delta)$. Replacing $\beta$ by $1$
+gives a conservative guarantee when the true mass is unknown.
+
+\newpage
+\section{When the original law is available by sampling}
+
+Draw $m\geq1$ independent outputs $X_1,\ldots,X_m\sim P_0$, separately
+from the constrained and pilot samples. Replace $P_0(C)$ in~\eqref{eq:estimator} by
+$\widehat P_m(C)=m^{-1}\sum_{j=1}^m\mathbf1\{X_j\in C\}$, and call the
+result $\widetilde B$. Original samples supply mass estimates; they do
+not supply membership labels for $B$.
+
+\begin{proposition}[Estimated original masses]
+Under the same fixed-family assumption, with probability at least
+$1-\delta$,
+\begin{equation}
+ \boxed{\quad P_0(B\triangle\widetilde B)
+ \leq \frac{2\beta}{n}\log\frac{2M}{\delta}
+       +\sqrt{\frac{2}{m}\log\frac{4M}{\delta}}.\quad}
+ \label{eq:samplebound}
+\end{equation}
+\end{proposition}
+\begin{proof}
+Hoeffding's inequality for each indicator average, followed by a union
+bound, gives
+\[
+ \Pr\!\left\{\max_{C\in\mathcal H}|\widehat P_m(C)-P_0(C)|>\eta\right\}
+ \leq 2M e^{-2m\eta^2}.
+\]
+Choose $\eta=\sqrt{\log(4M/\delta)/(2m)}$, making this probability at
+most $\delta/2$. On the complementary event, empirical minimality gives
+\[
+ P_0(\widetilde B)\leq\widehat P_m(\widetilde B)+\eta
+ \leq\widehat P_m(B)+\eta\leq\beta+2\eta.
+\]
+The preceding proof, with failure probability $\delta/2$, also gives
+$a=P_0(B\setminus\widetilde B)\leq\beta\log(2M/\delta)/n$ for every
+feasible choice, including $\widetilde B$. Both events hold with
+probability at least $1-\delta$. Writing
+$b=P_0(\widetilde B\setminus B)$, the mass comparison implies
+$b\leq a+2\eta$. Thus the total error is at most $2a+2\eta$,
+which is~\eqref{eq:samplebound}.
+\end{proof}
+
+\section{What the extension buys}
+
+More original samples shrink the second term; more constrained samples
+shrink the first. A shared representation can help if it makes a small,
+correct candidate family available. An invertible change of coordinates
+alone preserves probability error. Guessing an alignment does not
+resolve indistinguishable alternatives without additional information.
+
+These are finite-family guarantees, not a claim of tighter numerical
+error than the original experiment. Arbitrary two-interval endpoints
+form an infinite family; a finite grid may exclude the true region.
+Misspecification, noisy anchors, or a family learned from the inference
+samples require additional analysis. Exact sample locations do not
+certify exact unseen boundaries.
+
+{\footnotesize\raggedright
+\begin{thebibliography}{3}
+\setlength{\itemsep}{0pt}
+\bibitem{inverse} J. R. Landers.
+\href{inverse_sampling_region.pdf}{Can sampled distances recover a constrained region?}
+Companion note, 2026.
+\bibitem{edm} I. Dokmani\'{c}, R. Parhizkar, J. Ranieri, and M. Vetterli.
+\href{https://arxiv.org/abs/1502.07541}{Euclidean distance matrices: Essential theory, algorithms and applications.}
+2015.
+\bibitem{scott} C. D. Scott and R. D. Nowak.
+\href{https://jmlr.org/papers/v7/scott06a.html}{Learning minimum volume sets.}
+JMLR 7:665--704, 2006.
+\end{thebibliography}}
+\end{document}
