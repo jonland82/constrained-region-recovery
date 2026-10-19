@@ -80,6 +80,7 @@ def main() -> None:
     fig.subplots_adjust(left=0.065, right=0.99, bottom=0.24, top=0.84, wspace=0.27)
     OUTPUT.parent.mkdir(parents=True, exist_ok=True)
     fig.savefig(OUTPUT)
+    fig.savefig(OUTPUT.with_suffix(".png"), dpi=200)
     plt.close(fig)
     print(OUTPUT)
 

@@ -1,0 +1,91 @@
+:root {
+  --ink: #232323;
+  --muted: #666;
+  --rule: #bcbcbc;
+  --paper: #fff;
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  color: var(--ink);
+  background: var(--paper);
+  font: 15px/1.53 "Courier New", Courier, monospace;
+}
+a { color: inherit; text-decoration-thickness: 1px; text-underline-offset: 3px; }
+a:hover { text-decoration-thickness: 2px; }
+a:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; }
+.skip-link { position: absolute; left: -10000px; top: auto; }
+.skip-link:focus { left: 1rem; top: 1rem; z-index: 10; padding: .5rem; background: white; }
+.shell { max-width: 900px; margin: 0 auto; padding: 0 30px; }
+.masthead {
+  display: flex; justify-content: space-between; gap: 1rem;
+  border-bottom: 1px solid var(--ink);
+  padding: 22px 0 8px;
+  font-size: 11px; letter-spacing: .03em;
+}
+.masthead a { text-decoration: none; }
+.masthead a:hover { text-decoration: underline; }
+.title-block { margin: 34px 0 28px; border-bottom: 1px solid var(--ink); padding-bottom: 20px; }
+.title-block h1 { margin: 0 0 7px; font-size: clamp(22px, 4vw, 31px); line-height: 1.25; letter-spacing: -.025em; }
+.title-block p { margin: 4px 0; }
+.subtitle { color: var(--muted); }
+.author { font-size: 14px; }
+.paper-links, .actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 19px; }
+.button { display: inline-block; border: 1px solid var(--ink); padding: 7px 11px; text-decoration: none; font-size: 13px; }
+.button:hover { color: white; background: var(--ink); }
+.button.text { border-color: transparent; text-decoration: underline; }
+.button.text:hover { color: var(--ink); background: transparent; }
+.eyebrow { margin: 0 0 12px; color: var(--muted); font-size: 11px; text-transform: uppercase; letter-spacing: .08em; }
+.lede { font-size: 16px; max-width: 72ch; }
+.formula { overflow-x: auto; text-align: center; margin: 26px 0 32px; }
+.page-section { margin: 38px 0; }
+.page-section h2, .paper-body h2 {
+  margin: 0 0 22px; font-size: 18px; line-height: 1.35;
+}
+.page-section h2::after, .paper-body h2::after {
+  content: ""; display: block; width: 75%; height: 1px; margin: 12px auto 0; background: var(--ink);
+}
+.paper-list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 28px; }
+.paper-card { border-top: 1px solid var(--ink); padding-top: 14px; }
+.paper-card h3 { margin: 0 0 12px; font-size: 18px; line-height: 1.35; }
+.paper-card p { margin: 0 0 10px; }
+.paper-card .actions { margin-top: 18px; }
+.key-points { padding-left: 22px; }
+.key-points li { margin: 0 0 10px; }
+.foot { margin: 60px 0 24px; border-top: 1px solid var(--ink); padding-top: 12px; color: var(--muted); font-size: 12px; }
+.foot a { color: var(--ink); }
+
+.paper-body { padding-bottom: 18px; }
+.paper-body > p { margin: 0 0 14px; }
+.paper-body h2 { margin-top: 36px; }
+.paper-body .math.display { display: block; overflow-x: auto; text-align: center; margin: 16px 0; }
+.paper-body .equation { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 8px; margin: 16px 0; }
+.paper-body .equation .math.display { min-width: 0; margin: 0; }
+.equation-number { white-space: nowrap; }
+.lemma, .proposition, .remark { margin: 17px 0; }
+.lemma p, .proposition p, .remark p { margin: 0; }
+.proof { margin: 12px 0 18px; }
+.proof p { margin: 0 0 11px; }
+.paper-body figure { margin: 27px 0; text-align: center; }
+.paper-body figure img { width: 100%; max-width: 100%; height: auto; }
+.paper-body figcaption { margin: 10px auto 0; text-align: left; font-size: 13px; line-height: 1.4; }
+.paper-body .references { padding-left: 26px; font-size: 13px; }
+.paper-body .references li { margin-bottom: 10px; }
+.paper-nav { display: flex; flex-wrap: wrap; gap: 10px 22px; margin-top: 36px; border-top: 1px solid var(--rule); padding-top: 15px; font-size: 13px; }
+
+@media (max-width: 650px) {
+  body { font-size: 14px; }
+  .shell { padding: 0 17px; }
+  .masthead { flex-direction: column; align-items: flex-start; gap: 3px; font-size: 10px; }
+  .paper-list { grid-template-columns: 1fr; }
+  .paper-body .equation { grid-template-columns: minmax(0, 1fr); }
+  .equation-number { text-align: right; }
+}
+@media print {
+  .shell { max-width: none; }
+  .paper-links, .paper-nav, .skip-link { display: none; }
+  a { text-decoration: none; }
+  .paper-body figure, .lemma, .proposition { break-inside: avoid; }
+}

@@ -1,6 +1,10 @@
 # Constrained Region Recovery
 
+**Jonathan R. Landers**
+
 Recover hidden output constraints from samples and distances, with proofs and reproducible uncertainty bounds.
+
+Read the [research landing page](https://jonland82.github.io/constrained-region-recovery/) or the papers as HTML: [inverse sampling](papers/inverse_sampling_region.html) and [shared references](papers/inverse_sampling_shared_references.html). Both papers are also available as PDFs in [`papers/`](papers/).
 
 At a fixed input, the original output law is `P0`, the unknown allowed region is `B`, and the constrained sampler follows `Q(A) = P0(A intersect B) / P0(B)`. The project asks what can be recovered from sampled outputs, their distances, and samples from `P0`.
 
@@ -8,7 +12,7 @@ At a fixed input, the original output law is `P0`, the unknown allowed region is
 
 | Directory | Contents |
 |---|---|
-| [`papers/`](papers/) | Original inverse sampling paper and shared-reference extension, with LaTeX sources and PDFs. |
+| [`papers/`](papers/) | Original inverse sampling paper and shared-reference extension, with LaTeX, HTML, and PDF editions. |
 | [`experiments/original_region/`](experiments/original_region/) | Script and figure for the original paper's two-interval simulation. |
 | [`experiments/shared_references/`](experiments/shared_references/) | Two-sample anchor experiment and its saved results. |
 | [`slides/`](slides/) | Similarity-mass slide and its generator. |
@@ -56,3 +60,11 @@ powershell -ExecutionPolicy Bypass -File scripts/build_papers.ps1
 ```
 
 The helper compiles in `build/latex/` and copies the finished PDFs into `papers/`.
+
+To rebuild the HTML editions, install Pandoc and the Python packages in [`requirements.txt`](requirements.txt), then run:
+
+```powershell
+python scripts/build_html.py
+```
+
+The repository root serves the static GitHub Pages site from `main`. The generated HTML files and figure images are committed so Pages does not need a separate build step.

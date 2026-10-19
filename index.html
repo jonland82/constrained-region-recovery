@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Research notes by Jonathan R. Landers on recovering hidden output constraints from samples and distances.">
+  <title>Constrained Region Recovery — Jonathan R. Landers</title>
+  <link rel="stylesheet" href="assets/site.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+</head>
+<body>
+  <a class="skip-link" href="#content">Skip to content</a>
+  <div class="shell">
+    <header class="masthead"><span>Distribution Sampling Neighborhoods</span><span>RESEARCH NOTES · 2026</span></header>
+    <main id="content">
+      <div class="title-block">
+        <p class="eyebrow">Inverse sampling / research archive</p>
+        <h1>Constrained Region Recovery</h1>
+        <p class="subtitle">What can samples and distances reveal about a hidden output constraint?</p>
+        <p class="author">Jonathan R. Landers</p>
+      </div>
+
+      <section class="page-section" aria-labelledby="question">
+        <h2 id="question">The question</h2>
+        <p class="lede">An original distribution \(P_0\) is restricted to an unknown region \(B\). We observe samples from the restricted law and ask what those samples—and their distances—can tell us about \(B\).</p>
+        <div class="formula">\[Q(A)=\frac{P_0(A\cap B)}{P_0(B)}.\]</div>
+      </section>
+
+      <section class="page-section" aria-labelledby="papers">
+        <h2 id="papers">Papers</h2>
+        <div class="paper-list">
+          <article class="paper-card">
+            <p class="eyebrow">01 / Inverse sampling</p>
+            <h3>Can sampled distances recover a constrained region?</h3>
+            <p>Pairwise distances can hide location even when the original law is known. The note also gives an exact-law identification result and a two-interval recovery rule.</p>
+            <div class="actions">
+              <a class="button" href="papers/inverse_sampling_region.html">Read HTML</a>
+              <a class="button" href="papers/inverse_sampling_region.pdf">Read PDF</a>
+            </div>
+          </article>
+          <article class="paper-card">
+            <p class="eyebrow">02 / Shared references</p>
+            <h3>Can shared references sharpen region recovery?</h3>
+            <p>Distances to common anchors place samples in a shared space. A fixed candidate family then gives finite-sample error bounds, with a two-sample experiment.</p>
+            <div class="actions">
+              <a class="button" href="papers/inverse_sampling_shared_references.html">Read HTML</a>
+              <a class="button" href="papers/inverse_sampling_shared_references.pdf">Read PDF</a>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section class="page-section" aria-labelledby="findings">
+        <h2 id="findings">What the results show</h2>
+        <ul class="key-points">
+          <li>Distances within a constrained sample may leave the region and its original mass unidentified.</li>
+          <li>Shared anchors resolve location when their coordinates and cross-distances are known; unseen boundaries still require assumptions.</li>
+          <li>On a fixed 625-region grid containing the truth, the shared-reference experiment reached zero median region error with at least 100 constrained samples. Its theoretical bounds were conservative.</li>
+        </ul>
+        <p>These are focused explanatory results; the experiment is not a matched comparison proving one estimator is better.</p>
+      </section>
+
+      <section class="page-section" aria-labelledby="materials">
+        <h2 id="materials">Code and data</h2>
+        <p>The <a href="https://github.com/jonland82/constrained-region-recovery">repository</a> contains the LaTeX sources, experiment scripts, run-level data, and figure builders. See the <a href="https://github.com/jonland82/constrained-region-recovery/blob/main/experiments/shared_references/results/README.md">shared-reference results</a> for the full simulation table.</p>
+      </section>
+    </main>
+    <footer class="foot">Jonathan R. Landers · 2026 · <a href="https://github.com/jonland82/constrained-region-recovery">GitHub repository</a></footer>
+  </div>
+</body>
+</html>
