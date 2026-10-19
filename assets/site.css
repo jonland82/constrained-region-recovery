@@ -1,6 +1,6 @@
 :root {
   --ink: #000;
-  --muted: #222;
+  --muted: #000;
   --rule: #bcbcbc;
   --paper: #fff;
 }
@@ -11,10 +11,7 @@ body {
   margin: 0;
   color: var(--ink);
   background: var(--paper);
-  font: 15px/1.53 "Courier New", Courier, monospace;
-}
-p, li, figcaption, .masthead, .paper-nav, .button, .eyebrow, .foot {
-  -webkit-text-stroke: .55px currentColor;
+  font: 700 15px/1.53 "Courier New", Courier, monospace;
 }
 a { color: inherit; text-decoration-thickness: 1px; text-underline-offset: 3px; }
 a:hover { text-decoration-thickness: 2px; }
