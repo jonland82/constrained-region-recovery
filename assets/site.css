@@ -57,7 +57,13 @@ a:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; }
 .foot { margin: 60px 0 24px; border-top: 1px solid var(--ink); padding-top: 12px; color: var(--muted); font-size: 12px; }
 .foot a { color: var(--ink); }
 
-.paper-body { padding-bottom: 18px; }
+.paper-body {
+  padding-bottom: 18px;
+  color: #000;
+  font-size: 16px;
+  font-weight: 700;
+  -webkit-text-stroke: .2px currentColor;
+}
 .paper-body > p { margin: 0 0 14px; }
 .paper-body h2 { margin-top: 36px; }
 .paper-body .math.display { display: block; overflow-x: auto; text-align: center; margin: 16px 0; }
