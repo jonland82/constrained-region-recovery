@@ -19,6 +19,7 @@ At a fixed input, the original output law is `P0`, the unknown allowed region is
 
 - The [inverse sampling paper](papers/inverse_sampling_region.pdf) shows that distances within the constrained sample may not identify `B`, even when `P0` is known. It also gives an exact-law identification result and a two-interval estimator with a 1,000-run normal simulation.
 - The [shared-reference note](papers/inverse_sampling_shared_references.pdf) uses distances to common anchors to locate constrained outputs. For a fixed family of `M` candidate regions containing the true `B`, it proves bounds on the original mass of the symmetric difference `P0(B symmetric_difference B_est)`. The [LaTeX sources](papers/) contain the assumptions and full proofs.
+- The four-page note now explains the saved experiment alongside its two-panel figure: distance-only ambiguity, recovery error, sample-size effects, and bound coverage. Regenerate the figure from `summary.csv` with [`make_paper_figure.py`](experiments/shared_references/make_paper_figure.py).
 - These are focused explanatory results. The note does not establish research novelty over the support-estimation literature; its finite-family and concentration arguments build on standard methods.
 
 ## Shared-reference experiment
@@ -43,6 +44,7 @@ From the repo root, with Python and the packages in [`requirements.txt`](require
 ```powershell
 python experiments/original_region/inverse_region_experiment.py
 python experiments/shared_references/run_experiment.py --repeats 500
+python experiments/shared_references/make_paper_figure.py
 ```
 
 The shared-reference run writes its per-run data, summary, plot, seed, library versions, and a short interpretation to [`experiments/shared_references/results/`](experiments/shared_references/results/). Its candidate family contains the true region and is fixed before sampling, as the note requires. The original samples used as anchors are separate from the original samples used to estimate masses.

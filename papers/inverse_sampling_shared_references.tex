@@ -8,6 +8,7 @@
 \usepackage{fancyhdr}
 \usepackage{titlesec}
 \usepackage{xcolor}
+\usepackage{graphicx}
 \usepackage{hyperref}
 
 \definecolor{ink}{HTML}{232323}
@@ -88,6 +89,7 @@ Thus three noncollinear anchors suffice in the plane. The construction
 is a distance-reconstruction method~\cite{edm}; an arbitrary metric or
 degenerate anchor set need not have this property. It locates observed
 points exactly, while unsampled parts of $B$ still require inference.
+The experiment below checks this reconstruction directly in one dimension.
 
 \section{A small family of possible regions}
 
@@ -96,7 +98,6 @@ with $B\in\mathcal H$. Candidates may be defined in the shared space and
 pulled back through $\phi$. Fix the anchors and family before collecting
 the samples used below; an independent pilot sample is allowed.
 
-\newpage
 \section{Minimum mass gives an error bound}
 
 When candidate masses are known, retain candidates containing all
@@ -157,7 +158,6 @@ For a desired error $\varepsilon>0$, it suffices that
 $n\geq(2\beta/\varepsilon)\log(M/\delta)$. Replacing $\beta$ by $1$
 gives a conservative guarantee when the true mass is unknown.
 
-\newpage
 \section{When the original law is available by sampling}
 
 Draw $m\geq1$ independent outputs $X_1,\ldots,X_m\sim P_0$, separately
@@ -197,6 +197,46 @@ $b=P_0(\widetilde B\setminus B)$, the mass comparison implies
 $b\leq a+2\eta$. Thus the total error is at most $2a+2\eta$,
 which is~\eqref{eq:samplebound}.
 \end{proof}
+
+\section{A numerical illustration}
+
+For the two-sample experiment, take $P_0=N(0,1)$ and
+$B=[-1.55,-0.45]\cup[0.55,1.35]$, so $\beta\approx0.4684$.
+Each endpoint has five fixed grid values, including the truth, giving
+$M=5^4=625$ candidates. Two separate known-coordinate original samples
+serve as anchors; the estimator receives only distances from the
+constrained points to those anchors. Another independent sample of size
+$m$ estimates candidate masses. We use $500$ runs for each
+$n\in\{40,100,250,500\}$ and $m\in\{100,1000,10000\}$, with
+$\delta=0.05$ in the bounds.
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=\textwidth]{figures/shared_reference_illustration.pdf}
+  \caption{(a) Translating the sample by $2$ preserves all internal
+  distances, while a common anchor resolves its location; the two regions
+  have masses $1/3$ and $2/3$ under the counterexample's $P_0$. (b) The 90th-percentile
+  original-mass error for $P_0=N(0,1)$ and a fixed $625$-candidate family
+  containing $B$ (500 runs per setting). The known-mass curve uses the same
+  constrained-sample batch as $m=100$.}
+  \label{fig:shared}
+\end{figure}
+
+The anchor solve had maximum coordinate error $3.8\times10^{-15}$.
+At $n=40$, median region error was about $0.013$ in original mass;
+the median was zero at $n\geq100$ on this grid. With only $m=100$
+original samples, estimated masses changed the selected region in
+$663$ of $2000$ runs across the four values of $n$. No selection changed
+at $m\geq1000$ in the other $4000$ runs. At $n=500$, the known-mass
+90th-percentile error was zero, while the $m=100$ estimate's was
+$0.0205$.
+
+Neither 95\% bound was exceeded in any of the $6000$ runs. These
+observations are consistent with the propositions, but do not establish
+their coverage beyond this design. The bounds are conservative here:
+at $(n,m)=(500,100)$ the sampled-mass bound is $0.484$, far above the
+observed 90th-percentile error of $0.0205$. Figure~\ref{fig:shared}(a)
+uses a separate distance-only control to show what the anchors add.
 
 \section{What the extension buys}
 
