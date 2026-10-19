@@ -1,6 +1,6 @@
 :root {
-  --ink: #232323;
-  --muted: #666;
+  --ink: #111;
+  --muted: #414141;
   --rule: #bcbcbc;
   --paper: #fff;
 }
@@ -12,6 +12,9 @@ body {
   color: var(--ink);
   background: var(--paper);
   font: 15px/1.53 "Courier New", Courier, monospace;
+}
+p, li, figcaption, .masthead, .paper-nav, .button, .eyebrow, .foot {
+  -webkit-text-stroke: .18px currentColor;
 }
 a { color: inherit; text-decoration-thickness: 1px; text-underline-offset: 3px; }
 a:hover { text-decoration-thickness: 2px; }
